@@ -5,7 +5,7 @@ const getAll = async () => {
     return tasks[0];
 };
 
-const createTask = async (task = undefined || {}) => {
+const createTask = async (task = undefined || {} ) => {
     const { title } = task;
     const query = 'INSERT INTO tasks(title, status, created_at) VALUES (?, ?, ?)';
     const dateUTC = new Date(Date.now()).toUTCString();
