@@ -4,7 +4,7 @@ const validateBody = (request, response, next)=>{
         return response.status(400).json({ error: 'O título é obrigatório e não pode ser vazio' });
     }
     if (body.status == undefined || body.status == ''){
-        return response.status(400).json({ error: 'O status é obrigatório  e não pode ser vazio' });
+        return response.status(400).json({ error: 'O status é obrigatório e não pode ser vazio' });
     }
  
 
