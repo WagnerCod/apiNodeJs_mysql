@@ -6,7 +6,6 @@ const validateBody = (request, response, next)=>{
     if (body.status == undefined || body.status == ''){
         return response.status(400).json({ error: 'O status é obrigatório e não pode ser vazio' });
     }
- 
 
     //! se o title n é undefined ou vazio ele passa para o next
     next(); 
