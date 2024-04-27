@@ -4,6 +4,7 @@ const router = express.Router();
 const taskMiddleware = require('./middlewares/taksmoddlewares');
 const locadorController = require('./controllers/locadorControllers')
 const locatarioController = require('./controllers/lacatarioControllers');
+const usuarioController = require('./controllers/usuarioControllers')
 
 
 // const locadorMiddleware = require('./middlewares/locadorModdlewares')
@@ -16,7 +17,7 @@ router.delete('/tasks/:id', tasksController.deleteTasks);
 //* rotas locador
 router.post('/locador', locadorController.insertLocador);  //!ok
 router.put('/locador/:cpf', locadorController.updateLocadorPorCPF); //!ok
-router.delete('/locador/delete/:cpf', locadorController.deletarContaLocador); 
+router.delete('/locador/delete/:cpf', locadorController.deletarContaLocador); //!ok
 router.get('/locador/cpf/:cpf', locadorController.getLocadorPorCpf); //!ok
 router.get('/locador/cnpj/:cnpj', locadorController.getLocadorPorCnpj); 
 
@@ -26,5 +27,10 @@ router.put('/locatario/:cpf', locatarioController.updatelocatarioPorCPF); //!ok
 router.delete('/locatario/delete/:cpf', locatarioController.deletarContalocatario);  //!ok
 router.get('/locatario/cpf/:cpf', locatarioController.getlocatarioPorCpf); //!ok
 router.get('/locatario/cnpj/:cnpj', locatarioController.getlocatarioPorCnpj);
+
+//*rotas login/User
+router.post('/usuario', usuarioController.createdUser); //! ok
+router.get('/usuario/:id', usuarioController.getUsuario);
+router.post('/usuario/login', usuarioController.validateUser);
 
 module.exports = router; 

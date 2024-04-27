@@ -1,13 +1,13 @@
 const connection = require('./connection');
 
 const insertLocador = async (locadorData) => {
-    let { nome, cpf, cnpj, telefone, dt_nascimento, email, senha, endereco } = locadorData;
+    console.log(locadorData);
     try {
         // Prepara a query SQL para inserção
-        let sqlQuery = 'INSERT INTO locador(nome, cpf, cnpj, telefone, dt_nascimento, email, senha, endereco) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        let sqlQuery = 'INSERT INTO locador(nome_locador, cpf_locador, cnpj_locador, email_locador, telefone_locador, dt_nascimento, endereco_locador) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
         // Executa a query com os valores fornecidos
-        const result = await connection.execute(sqlQuery, [nome, cpf, cnpj, telefone, dt_nascimento, email, senha, endereco]);
+        const result = await connection.execute(sqlQuery, [locadorData.nome, locadorData.cpf, locadorData.cnpj, locadorData.email, locadorData.telefone, locadorData.dt_nascimento, locadorData.endereco]);
 
         // Retorna o ID do locador inserido
         return { insertId: result[0].insertId };
@@ -19,10 +19,11 @@ const insertLocador = async (locadorData) => {
 }
 
 const updateLocadorPorCPF = async (cpf, locadorData) =>{
-    let { nome, telefone, dt_nascimento, email, senha, endereco } = locadorData;
+    console.log(locadorData);
+    //let { nome, email, telefone, dt_nascimento, endereco } = locadorData;
     try{
-        const sqlQuery = 'update locador set nome = ? , telefone = ?, dt_nascimento = ?, email = ?, senha = ?, endereco = ? where cpf = ?';
-        const updatelocador = await connection.execute(sqlQuery,[nome, telefone, dt_nascimento, email, senha, endereco, cpf])
+        const sqlQuery = 'update locador set nome_locador = ? , email_locador = ?, telefone_locador = ?, dt_nascimento = ?,  endereco_locador = ? where cpf_locador = ?';
+        const updatelocador = await connection.execute(sqlQuery,[locadorData.nome, locadorData.email, locadorData.telefone, locadorData.dt_nascimento, locadorData.endereco, cpf])
         return updateLocadorPorCPF;
 
     }catch (error){
@@ -32,10 +33,10 @@ const updateLocadorPorCPF = async (cpf, locadorData) =>{
 }
 
 const updateLocadorPorCnpj = async (cnpj, locadorData) =>{
-    let { nome, telefone, dt_nascimento, email, senha, endereco } = locadorData;
+    let { nome, email, telefone, dt_nascimento, endereco } = locadorData;
     try{
-        const sqlQuery = 'update locador set nome = ? , telefone = ?, dt_nascimento = ?, email = ?, senha = ?, endereco = ? where cnpj = ?';
-        const updatelocador = await connection.execute(sqlQuery,[nome, telefone, dt_nascimento, email, senha, endereco, cnpj])
+        const sqlQuery = 'update locador set nome_locador = ? , email_locador = ?, telefone_locador = ?, dt_nascimento = ?,  endereco_locador = ? where cnpj_locador = ?';
+        const updatelocador = await connection.execute(sqlQuery,[nome, email, telefone, dt_nascimento, endereco, cnpj])
         return updateLocadorPorCPF;
 
     }catch (error){
@@ -44,9 +45,10 @@ const updateLocadorPorCnpj = async (cnpj, locadorData) =>{
     }
 }
 
-const deletarContaLocador = async (cpf) => {
+const deletarContaLocador = async (res) => {
     try{
-        const sqlQuery = 'DELETE FROM locador WHERE cpf = ?';
+        const  {cpf} = res;
+        const sqlQuery = 'DELETE FROM locador WHERE cpf_locador = ?';
         const deletarConta =  await connection.execute(sqlQuery, [cpf]);
         return deletarConta;
     }catch (error){
@@ -56,9 +58,10 @@ const deletarContaLocador = async (cpf) => {
 }
 
 const getLocadorPorCpf =  async (res) =>{
+    console.log(res);
     try{
         const {cpf} = res;
-        const sqlQuery = 'SELECT * FROM locador WHERE cpf =?';
+        const sqlQuery = 'SELECT * FROM locador WHERE cpf_locador =?';
         const result  = await connection.query(sqlQuery, [cpf]);
         return result[0];
      } catch(error){
@@ -70,7 +73,7 @@ const getLocadorPorCpf =  async (res) =>{
 const getLocadorPorCnpj =  async (res) =>{
     try{
         const {cnpj} = res;
-        const sqlQuery = 'SELECT * FROM locador WHERE cnpj=?';
+        const sqlQuery = 'SELECT * FROM locador WHERE cnpj_locador=?';
         const result  = await connection.query(sqlQuery, [cnpj]) ;
         return(result[0]);
      } catch(error){

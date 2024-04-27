@@ -4,11 +4,11 @@ const locadorModel = require('../models/locadorModel');
 const insertLocador = async (req, res) => {
     try {
         // Desestruturação correta do body para obter locadorData
-        const { nome, cpf, cnpj, telefone, dt_nascimento, email, senha, endereco } = req.body;
-
+        const { nome, cpf, cnpj, email, telefone, dt_nascimento, endereco } = req.body;
+        
         // Cria um objeto locadorData com os dados recebidos
-        const locadorData = { nome, cpf, cnpj, telefone, dt_nascimento, email, senha, endereco };
-
+        const locadorData = { nome, cpf, cnpj, email, telefone, dt_nascimento, endereco };
+        
         // Chama o método insertLocador do modelo e aguarda a inserção no banco de dados
         const createLocador = await locadorModel.insertLocador(locadorData);
 
@@ -24,8 +24,8 @@ const insertLocador = async (req, res) => {
 const updateLocadorPorCPF = async (req, res) => {
     try {
         let { cpf } = req.params;
-        const { nome, telefone, dt_nascimento, email, senha, endereco } = req.body;
-        const updatelocador = await locadorModel.updateLocadorPorCPF(cpf, { nome, telefone, dt_nascimento, email, senha, endereco });
+        const { nome, email, telefone, dt_nascimento, endereco } = req.body;
+        const updatelocador = await locadorModel.updateLocadorPorCPF(cpf, { nome, email, telefone, dt_nascimento, endereco });
         return res.status(200).json({ message: 'Locador atualizado com sucesso!' });
     } catch (error) {
         console.error('Erro ao inserir locador:', error);
@@ -35,8 +35,8 @@ const updateLocadorPorCPF = async (req, res) => {
 const updateLocadorPorCnpj = async (req, res) => {
     try {
         let { cnpj } = req.params;
-        const { nome, telefone, dt_nascimento, email, senha, endereco } = req.body;
-        const updatelocador = await locadorModel.updateLocadorPorCnpj(cnpj, { nome, telefone, dt_nascimento, email, senha, endereco });
+        const { nome, email, telefone, dt_nascimento, endereco } = req.body;
+        const updatelocador = await locadorModel.updateLocadorPorCnpj(cnpj, { nome, email, telefone, dt_nascimento, endereco });
         return res.status(200).json({ message: 'Locador atualizado com sucesso!' });
     } catch (error) {
         console.error('Erro ao deletar contar:', error);
@@ -44,34 +44,34 @@ const updateLocadorPorCnpj = async (req, res) => {
     }
 }
 
-const deletarContaLocador = async (req, res) =>{
-    try{
-        let  {cpf}= req.params;
-        await  locadorModel.deletarConta({cpf});
-        return res.status(200).json({message: 'Conta deletada com sucesso, não há chances de recuperar! '})
-    }catch(error){
+const deletarContaLocador = async (req, res) => {
+    try {
+        let { cpf } = req.params;
+        await locadorModel.deletarContaLocador({ cpf });
+        return res.status(200).json({ message: 'Conta deletada com sucesso, não há chances de recuperar! ' })
+    } catch (error) {
         console.error('Erro ao deletar conta:', error);
         return res.status(500).json({ error: 'Erro ao deletar contar' });
     }
 }
 
-const getLocadorPorCpf = async (req, res) =>{
-    try{
-        let  { cpf }= req.params;
-        const getlocador = await locadorModel.getLocadorPorCpf({cpf});
+const getLocadorPorCpf = async (req, res) => {
+    try {
+        let { cpf } = req.params;
+        const getlocador = await locadorModel.getLocadorPorCpf({ cpf });
         return res.status(200).json(getlocador);
-    }catch(error){
+    } catch (error) {
         console.error('Erro ao buscar locador:', error);
         return res.status(500).json({ error: 'Erro ao buscar contar' });
     }
 }
 
-const getLocadorPorCnpj = async (req, res) =>{
-    try{
-        let  { cnpj }= req.params;
+const getLocadorPorCnpj = async (req, res) => {
+    try {
+        let { cnpj } = req.params;
         const getlocador = await locadorModel.getLocadorPorCnpj(cnpj);
         return res.status(200).json(getlocador);
-    }catch(error){
+    } catch (error) {
         console.error('Erro ao buscar locador:', error);
         return res.status(500).json({ error: 'Erro ao buscar contar' });
     }

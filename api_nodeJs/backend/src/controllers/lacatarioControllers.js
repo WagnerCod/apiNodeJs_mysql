@@ -1,13 +1,13 @@
-const { response } = require('express');
+const response  = require('express');
 const locatarioModel = require('../models/locatarioModel');
 
 const insertLocatario = async (req, res) => {
     try {
         // Desestruturação correta do body para obter locadorData
-        const { nome, cpf, cnpj, telefone, dt_nascimento,endereco, email, senha } = req.body;
+        const { nome, cpf, dt_nascimento, endereco, cnpj, estado_civil, telefone, email, dependentes} = req.body;
 
         // Cria um objeto locadorData com os dados recebidos
-        const locatarioData = { nome, cpf, cnpj, telefone, dt_nascimento, endereco, email, senha };
+        const locatarioData = { nome, cpf, dt_nascimento, endereco, cnpj, estado_civil, telefone, email, dependentes };
 
         // Chama o método insertLocatario do modelo e aguarda a inserção no banco de dados
         const createLocatario = await locatarioModel.insertLocatario(locatarioData);
@@ -24,8 +24,8 @@ const insertLocatario = async (req, res) => {
 const updatelocatarioPorCPF = async (req, res) => {
     try {
         let { cpf } = req.params;
-        const { nome, telefone, dt_nascimento, email, senha, endereco } = req.body;
-        const updatelocatario = await locatarioModel.updateLocatarioPorCPF(cpf, { nome, telefone, dt_nascimento, endereco, email, senha });
+        const { nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes } = req.body;
+        const updatelocatario = await locatarioModel.updateLocatarioPorCPF(cpf, {nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes });
         return res.status(200).json({ message: 'locatario atualizado com sucesso!' });
     } catch (error) {
         console.error('Erro ao inserir locatario:', error);
@@ -35,8 +35,8 @@ const updatelocatarioPorCPF = async (req, res) => {
 const updatelocatarioPorCnpj = async (req, res) => {
     try {
         let { cnpj } = req.params;
-        const { nome, telefone, dt_nascimento, email, senha, endereco } = req.body;
-        const updatelocatario = await locatarioModel.updateLocatarioPorCnpj(cnpj, { nome, telefone, dt_nascimento, endereco, email, senha});
+        const { nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes } = req.body;
+        const updatelocatario = await locatarioModel.updateLocatarioPorCnpj(cnpj, { nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes });
         return res.status(200).json({ message: 'locatario atualizado com sucesso!' });
     } catch (error) {
         console.error('Erro ao deletar contar:', error);
