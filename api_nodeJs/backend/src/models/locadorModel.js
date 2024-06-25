@@ -37,7 +37,7 @@ const updateLocadorPorCnpj = async (cnpj, locadorData) =>{
     try{
         const sqlQuery = 'update locador set nome_locador = ? , email_locador = ?, telefone_locador = ?, dt_nascimento = ?,  endereco_locador = ? where cnpj_locador = ?';
         const updatelocador = await connection.execute(sqlQuery,[nome, email, telefone, dt_nascimento, endereco, cnpj])
-        return updateLocadorPorCPF;
+        return updateLocadorPorCnpj;
 
     }catch (error){
         console.error('Erro ao inserir locador:', error);
@@ -82,11 +82,23 @@ const getLocadorPorCnpj =  async (res) =>{
      }
 }
 
+const getAllLocador = async (res) => {
+    try{
+        const sqlQuery = 'SELECT id_locador, nome_locador FROM locador';
+        const result = await connection.query(sqlQuery);
+        return result[0]
+    }catch(error){
+        console.error('Erro ao consultar locador:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     insertLocador,
     updateLocadorPorCPF,
     updateLocadorPorCnpj,
     deletarContaLocador,
     getLocadorPorCpf,
-    getLocadorPorCnpj
+    getLocadorPorCnpj,
+    getAllLocador
 };

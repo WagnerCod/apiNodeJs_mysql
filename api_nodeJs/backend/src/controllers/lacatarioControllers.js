@@ -81,11 +81,22 @@ const getlocatarioPorCnpj = async (req, res) =>{
     }
 }
 
+const getLocatarioAll = async (req, res) =>{
+    try{
+        const getlocatario = await locatarioModel.getLocatarioAll();
+        return res.status(200).json(getlocatario);
+    }catch(error){
+        console.error('Erro ao buscar locatario:', error);
+        return res.status(500).json({ error: 'Erro ao buscar locatario' });
+    }
+}
+
 module.exports = {
     insertLocatario,
     updatelocatarioPorCPF,
     updatelocatarioPorCnpj,
     deletarContalocatario,
     getlocatarioPorCpf,
-    getlocatarioPorCnpj
+    getlocatarioPorCnpj,
+    getLocatarioAll
 };

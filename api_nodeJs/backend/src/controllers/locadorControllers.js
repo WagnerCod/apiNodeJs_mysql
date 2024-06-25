@@ -76,6 +76,15 @@ const getLocadorPorCnpj = async (req, res) => {
         return res.status(500).json({ error: 'Erro ao buscar contar' });
     }
 }
+const getAllLocador = async (_req, res) => {
+    try {
+        const getlocador = await locadorModel.getAllLocador();
+        return res.status(200).json(getlocador);
+    } catch (error) {
+        console.error('Erro ao buscar locador:', error);
+        return res.status(500).json({ error: 'Erro ao buscar contar' });
+    }
+}
 
 module.exports = {
     insertLocador,
@@ -83,5 +92,6 @@ module.exports = {
     updateLocadorPorCnpj,
     deletarContaLocador,
     getLocadorPorCpf,
-    getLocadorPorCnpj
+    getLocadorPorCnpj,
+    getAllLocador
 };

@@ -79,6 +79,17 @@ const getLocatarioPorCnpj = async (res) => {
         throw error;
     }
 }
+const getLocatarioAll = async () => {
+    try {
+       ;
+        const sqlQuery = 'SELECT * FROM locatario ;';
+        const result = await connection.query(sqlQuery, []);
+        return (result[0]);
+    } catch (error) {
+        console.error('Erro ao consultar locador:', error);
+        throw error;
+    }
+}
 
 module.exports = {
     insertLocatario,
@@ -86,5 +97,6 @@ module.exports = {
     updateLocatarioPorCnpj,
     deletarContaLocatario,
     getLocatarioPorCpf,
-    getLocatarioPorCnpj
+    getLocatarioPorCnpj,
+    getLocatarioAll
 };
