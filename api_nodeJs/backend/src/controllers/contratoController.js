@@ -17,17 +17,14 @@ const createdContrato = async (req, res) => {
     }
 }
 
-const getContratoID = async (req, res) => {
+const getContratoCPFLocatario = async (req, res) => {
     try {
-        const { cpf_locatario, cnpj_locatario, cpf_locador, cnpj_locador } = req.params;
-        const contratoData = {
-            cpf_locatario: cpf_locatario   || 0,
-            cnpj_locatario: cnpj_locatario || 0,
-            cpf_locador: cpf_locador       || 0,
-            cnpj_locador: cnpj_locador     || 0
-        };
-
-        const contratoOK = await contratoModel.getContratoID(contratoData);
+        const { cpf } = req.params;
+        console.log(cpf);
+        const cpf_locatario = {
+            cpf: cpf
+        }
+        const contratoOK = await contratoModel.getContratoCPFLocatario(cpf_locatario);
 
         if (contratoOK.length > 0) {
             return res.status(200).json(contratoOK);
@@ -39,6 +36,64 @@ const getContratoID = async (req, res) => {
         return res.status(500).json({ error: 'Erro ao consultar contrato' });
     }
 };
+const getContratoCNPJLocatario = async (req, res) => {
+    try {
+        const { cnpj } = req.params;
+        console.log(cnpj);
+        const cnpj_locatario = {
+            cnpj: cnpj
+        }
+        const contratoOK = await contratoModel.getContratoCNPJLocatario(cnpj_locatario);
+
+        if (contratoOK.length > 0) {
+            return res.status(200).json(contratoOK);
+        } else {
+            return res.status(404).json({ message: 'Contrato não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao consultar contrato:', error);
+        return res.status(500).json({ error: 'Erro ao consultar contrato' });
+    }
+};
+
+const getContratoCNPJLocador = async (req, res) => {
+    try {
+        const { cnpj } = req.params;
+        console.log(cnpj);
+        const cnpj_locador = {
+            cnpj: cnpj
+        }
+        const contratoOK = await contratoModel.getContratoCNPJLocador(cnpj_locador);
+
+        if (contratoOK.length > 0) {
+            return res.status(200).json(contratoOK);
+        } else {
+            return res.status(404).json({ message: 'Contrato não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao consultar contrato:', error);
+        return res.status(500).json({ error: 'Erro ao consultar contrato' });
+    }
+};
+const getContratoCPFLocador = async (req, res) => {
+    try {
+        const { cpf } = req.params;
+        const cpf_locador = {
+            cpf: cpf
+        }
+        const contratoOK = await contratoModel.getContratoCPFLocador(cpf_locador);
+
+        if (contratoOK.length > 0) {
+            return res.status(200).json(contratoOK);
+        } else {
+            return res.status(404).json({ message: 'Contrato não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao consultar contrato:', error);
+        return res.status(500).json({ error: 'Erro ao consultar contrato' });
+    }
+};
+
 
 const deleteContrato = async (req, res) => {
     try {
@@ -57,6 +112,9 @@ const deleteContrato = async (req, res) => {
 
 module.exports = {
     createdContrato,
-    getContratoID,
+    getContratoCPFLocatario,
+    getContratoCNPJLocatario,
+    getContratoCNPJLocador,
+    getContratoCPFLocador,
     deleteContrato
 }

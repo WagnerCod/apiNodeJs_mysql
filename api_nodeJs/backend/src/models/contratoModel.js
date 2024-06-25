@@ -12,20 +12,62 @@ const createdContrato = async (contratoData) => {
     }
 }
 
-const getContratoID = async (contratoData) => {
-    console.log(contratoData);
+const getContratoCPFLocatario = async (res) => {
+    console.log(res);
     try {
-        const sqlQuery = " SELECT * FROM vw_contrato_final  where   locatario.cpf_locatario = ? OR locatario.cnpj_locatario = ? OR locador.cpf_locador = ? OR locador.cnpj_locador = '0' ORDER BY contrato.dt_contrato_inicio";
-        const [rows] = await connection.execute(sqlQuery, [contratoData.cpf_locatario,
-        contratoData.cnpj_locatario,
-        contratoData.cpf_locador,
-        contratoData.cnpj_locador]);
+        const cpf_locatario = res
+        console.log(cpf_locatario);
+        const sqlQuery = " SELECT * FROM vw_contrato_final where cpf_locatario = ? ORDER BY inicio_contrato";
+        const [rows] = await connection.execute(sqlQuery, [cpf_locatario.cpf]);
         return rows;
     } catch (error) {
         console.error('Erro ao consultar contrato:', error);
         throw error;
     }
 }
+const getContratoCNPJLocatario = async (res) => {
+    console.log(res);
+    try {
+        const cnpj_locatario = res
+        console.log(cnpj_locatario);
+        const sqlQuery = " SELECT * FROM vw_contrato_final where cnpj_locatario = ? ORDER BY inicio_contrato";
+        const [rows] = await connection.execute(sqlQuery, [cnpj_locatario.cnpj]);
+        return rows;
+    } catch (error) {
+        console.error('Erro ao consultar contrato:', error);
+        throw error;
+    }
+}
+const getContratoCNPJLocador = async (res) => {
+    console.log(res);
+    try {
+        const cnpj_locador = res
+        console.log(cnpj_locador);
+        const sqlQuery = " SELECT * FROM vw_contrato_final where cnpj_locador = ? ORDER BY inicio_contrato";
+        const [rows] = await connection.execute(sqlQuery, [cnpj_locador.cnpj]);
+        return rows;
+    } catch (error) {
+        console.error('Erro ao consultar contrato:', error);
+        throw error;
+    }
+}
+const getContratoCPFLocador = async (res) => {
+    console.log(res);
+    try {
+        const cpf_locador = res
+        console.log(cpf_locador);
+        const sqlQuery = " SELECT * FROM vw_contrato_final where cpf_locador = ? ORDER BY inicio_contrato";
+        const [rows] = await connection.execute(sqlQuery, [cpf_locador.cpf]);
+        return rows;
+    } catch (error) {
+        console.error('Erro ao consultar contrato:', error);
+        throw error;
+    }
+}
+
+
+
+
 const deleteContrato = async (id) => {
     try {
         const sqlQuery = 'DELETE FROM contrato WHERE id_contrato = ?'
@@ -43,6 +85,9 @@ const deleteContrato = async (id) => {
 
 module.exports = {
     createdContrato,
-    getContratoID,
+    getContratoCPFLocatario,
+    getContratoCNPJLocatario,
+    getContratoCNPJLocador,
+    getContratoCPFLocador,
     deleteContrato
 }
