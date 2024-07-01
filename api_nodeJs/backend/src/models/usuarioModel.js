@@ -47,7 +47,7 @@ const getUsuario = async (usuarioData) => {
 const validateUser = async (loginData) => {
     console.log(loginData);
     try {
-        const sqlQuery = 'SELECT id_usuario, email, senha FROM usuario WHERE email = ?';
+        const sqlQuery = 'SELECT id_usuario, id_tipo_usuario, email, senha FROM usuario WHERE email = ?';
         const [rows] = await connection.execute(sqlQuery, [loginData.email]);
 
         if (rows.length > 0) {
@@ -62,7 +62,7 @@ const validateUser = async (loginData) => {
             const passwordCorrect = await bcrypt.compare(loginData.password, passwordCrypto);
 
             if (passwordCorrect) {
-                return { id_usuario: rows[0].id_usuario, email: rows[0].email };
+                return { id_usuario: rows[0].id_usuario, email: rows[0].email, tipo_usuario: rows[0].id_tipo_usuario};
             } else {
                 return console.error('Senha incorreta');
             }

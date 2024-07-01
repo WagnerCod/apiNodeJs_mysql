@@ -7,6 +7,7 @@ const locatarioController = require('./controllers/lacatarioControllers');
 const usuarioController = require('./controllers/usuarioControllers');
 const imovelController = require('./controllers/imovelController');
 const contratoController = require('./controllers/contratoController');
+const pagamentoController = require ('./controllers/pagamentoController');
 
 
 
@@ -57,5 +58,11 @@ router.get('/api/wag/contrato/get/cnpj_locatario/:cnpj', contratoController.getC
 router.get('/api/wag/contrato/get/cpf_locador/:cpf', contratoController.getContratoCPFLocador);
 router.get('/api/wag/contrato/get/cnpj_locador/:cnpj', contratoController.getContratoCNPJLocador);
 router.delete('/api/wag/contrato/delete/:id', contratoController.deleteContrato);
+
+
+//* rotas de pagamento
+router.post('/api/wag/pagamento', pagamentoController.createdPagmamento);
+router.get('/api/wag/pagamento/getpagamento/:id', pagamentoController.getPagamento)
+router.delete('/api/wag/pagamento/deletepagamento/:id', pagamentoController.deletePagamento)
 
 module.exports = router; 

@@ -10,10 +10,10 @@ const insertLocador = async (req, res) => {
         const locadorData = { nome, cpf, cnpj, email, telefone, dt_nascimento, endereco };
         
         // Chama o método insertLocador do modelo e aguarda a inserção no banco de dados
-        const createLocador = await locadorModel.insertLocador(locadorData);
+        const locadorOk = await locadorModel.insertLocador(locadorData);
 
         // Retorna uma resposta de sucesso com o locador inserido e uma mensagem
-        return res.status(201).json({ locador: createLocador, message: 'Sucesso ao inserir' });
+        return res.status(201).json({ locador: locadorOk, message: 'Sucesso ao inserir' });
     } catch (error) {
         // Trata qualquer erro ocorrido durante o processo
         console.error('Erro ao inserir locador:', error);
