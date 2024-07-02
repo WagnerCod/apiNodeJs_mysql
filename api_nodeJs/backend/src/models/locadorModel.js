@@ -18,7 +18,7 @@ const insertLocador = async (locadorData) => {
     }
 }
 
-const updateLocadorPorCPF = async (cpf, locadorData) =>{
+const updateLocadorPorCPF = async (cpf, lcoadorData) =>{
     console.log(locadorData);
     //let { nome, email, telefone, dt_nascimento, endereco } = locadorData;
     try{
@@ -84,7 +84,7 @@ const getLocadorPorCnpj =  async (res) =>{
 
 const getAllLocador = async (res) => {
     try{
-        const sqlQuery = 'SELECT id_locador, nome_locador FROM locador';
+        const sqlQuery = 'SELECT id_locador, nome_locador FROM locador ORDER BY nome_locador';
         const result = await connection.query(sqlQuery);
         return result[0]
     }catch(error){
