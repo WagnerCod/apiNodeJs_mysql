@@ -82,7 +82,7 @@ const getLocatarioPorCnpj = async (res) => {
 const getLocatarioAll = async () => {
     try {
        ;
-        const sqlQuery = 'SELECT * FROM locatario ;';
+        const sqlQuery = 'SELECT * FROM locatario ORDER BY nome_locatario;';
         const result = await connection.query(sqlQuery, []);
         return (result[0]);
     } catch (error) {

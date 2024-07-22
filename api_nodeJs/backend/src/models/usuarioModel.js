@@ -98,7 +98,7 @@ const deleteAccount = async (id) => {
     try {
         const sqlQuery = 'DELETE FROM usuario where id_usuario = ?'
         const deleteAcc = await connection.execute(sqlQuery, [id]);
-        return deleteAccount;
+        return deleteAcc;
     } catch (error) {
         console.error('Erro ao deletar conta:', error);
         throw error;

@@ -43,8 +43,8 @@ const getAllImovel = async () => {
 const updateImovel = async (id, imovelData) =>{
     console.log(imovelData);
     try{
-        const sqlQuery = 'UPDATE imovel SET descricao = ?, endereco_imovel = ?, disponivel = ?, tipo_imovel = ?, img = ? WHERE id_imovel = ? ; ';
-        const result = await connection.execute(sqlQuery, [imovelData.descricao, imovelData.endereco_imovel, imovelData.disponivel, imovelData.tipo_imovel, imovelData.img, id]);
+        const sqlQuery = 'UPDATE imovel SET id_locador = ?, descricao = ?, endereco_imovel = ?, disponivel = ?, tipo_imovel = ?, img = ? WHERE id_imovel = ? ; ';
+        const result = await connection.execute(sqlQuery, [imovelData.id_locador, imovelData.descricao, imovelData.endereco_imovel, imovelData.disponivel, imovelData.tipo_imovel, imovelData.img, id]);
         return result;
     }catch (error){
         console.error('Erro ao atualizar imóvel:', error);

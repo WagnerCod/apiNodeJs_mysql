@@ -46,8 +46,8 @@ const getAllImovel = async (_req, res) => {
 const updateImovel = async (req, res) => {
     try {
         const id = Number(req.params.id);
-        const { descricao, endereco_imovel, disponivel, tipo_imovel, img } = req.body;
-        const imovelData = { descricao, endereco_imovel, disponivel, tipo_imovel, img }
+        const { id_locador, descricao, endereco_imovel, disponivel, tipo_imovel, img } = req.body;
+        const imovelData = {id_locador, descricao, endereco_imovel, disponivel, tipo_imovel, img }
         const updateImovelOk = await imovelModel.updateImovel(id, imovelData);
         if (updateImovelOk) {
             return res.status(200).json({ message: 'Imóvel atualizado com sucesso' });

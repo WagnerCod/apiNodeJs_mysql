@@ -65,13 +65,13 @@ const updateLogin = async(req, res) =>{
 const deleteAccount = async(req, res) =>{
     try{
         const id = req.params.id; // Remove as chaves desnecessárias na desestruturação
+        const deleteAcc = await usuarioModel.deleteAccount(id);
         if(deleteAcc){
-            const deleteAcc = await usuarioModel.deleteAccount(id);
-            res.status(200).json({message: 'deletado'});
+            return res.status(200).json({message: 'deletado'});
         }else{
             res.status(401).json({ error: 'verfique o id da conta' });
         }
-    }catch{
+    }catch (error){
         console.error('Erro ao deletar conta:', error);
         res.status(500).json({ error: 'Erro ao deletar conta' });
     }
