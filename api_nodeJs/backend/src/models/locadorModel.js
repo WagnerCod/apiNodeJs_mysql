@@ -84,7 +84,7 @@ const getLocadorPorCnpj =  async (res) =>{
 
 const getAllLocador = async (res) => {
     try{
-        const sqlQuery = 'SELECT id_locador, nome_locador FROM locador ORDER BY nome_locador';
+        const sqlQuery = 'SELECT * FROM locador ORDER BY nome_locador';
         const result = await connection.query(sqlQuery);
         return result[0]
     }catch(error){
