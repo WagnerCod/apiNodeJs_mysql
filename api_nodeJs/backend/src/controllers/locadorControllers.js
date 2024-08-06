@@ -5,10 +5,10 @@ const insertLocador = async (req, res) => {
     try {
         // Desestruturação correta do body para obter locadorData
         const { nome, cpf, cnpj, email, telefone, dt_nascimento, endereco } = req.body;
-        
+
         // Cria um objeto locadorData com os dados recebidos
         const locadorData = { nome, cpf, cnpj, email, telefone, dt_nascimento, endereco };
-        
+
         // Chama o método insertLocador do modelo e aguarda a inserção no banco de dados
         const locadorOk = await locadorModel.insertLocador(locadorData);
 
@@ -21,28 +21,18 @@ const insertLocador = async (req, res) => {
     }
 }
 
-const updateLocadorPorCPF = async (req, res) => {
+const updateLocador = async (req, res) => {
     try {
-        let { cpf } = req.params;
-        const { nome, email, telefone, dt_nascimento, endereco } = req.body;
-        const updatelocador = await locadorModel.updateLocadorPorCPF(cpf, { nome, email, telefone, dt_nascimento, endereco });
+        const id = Number(req.params.id);
+        const { nome, cpf, email, telefone, dt_nascimento, endereco } = req.body;
+        const updatelocador = await locadorModel.updateLocador(id, { nome, cpf, email, telefone, dt_nascimento, endereco });
         return res.status(200).json({ message: 'Locador atualizado com sucesso!' });
     } catch (error) {
         console.error('Erro ao inserir locador:', error);
         return res.status(500).json({ error: 'Erro ao inserir locador' });
     }
 }
-const updateLocadorPorCnpj = async (req, res) => {
-    try {
-        let { cnpj } = req.params;
-        const { nome, email, telefone, dt_nascimento, endereco } = req.body;
-        const updatelocador = await locadorModel.updateLocadorPorCnpj(cnpj, { nome, email, telefone, dt_nascimento, endereco });
-        return res.status(200).json({ message: 'Locador atualizado com sucesso!' });
-    } catch (error) {
-        console.error('Erro ao deletar contar:', error);
-        return res.status(500).json({ error: 'Erro ao inserir locador' });
-    }
-}
+
 
 const deletarContaLocador = async (req, res) => {
     try {
@@ -88,8 +78,7 @@ const getAllLocador = async (_req, res) => {
 
 module.exports = {
     insertLocador,
-    updateLocadorPorCPF,
-    updateLocadorPorCnpj,
+    updateLocador,
     deletarContaLocador,
     getLocadorPorCpf,
     getLocadorPorCnpj,

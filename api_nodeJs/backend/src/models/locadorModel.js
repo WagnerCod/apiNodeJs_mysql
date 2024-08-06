@@ -18,26 +18,12 @@ const insertLocador = async (locadorData) => {
     }
 }
 
-const updateLocadorPorCPF = async (cpf, lcoadorData) =>{
+const updateLocador= async (id, locadorData) =>{
     console.log(locadorData);
-    //let { nome, email, telefone, dt_nascimento, endereco } = locadorData;
     try{
-        const sqlQuery = 'update locador set nome_locador = ? , email_locador = ?, telefone_locador = ?, dt_nascimento = ?,  endereco_locador = ? where cpf_locador = ?';
-        const updatelocador = await connection.execute(sqlQuery,[locadorData.nome, locadorData.email, locadorData.telefone, locadorData.dt_nascimento, locadorData.endereco, cpf])
-        return updateLocadorPorCPF;
-
-    }catch (error){
-        console.error('Erro ao inserir locador:', error);
-        throw error;
-    }
-}
-
-const updateLocadorPorCnpj = async (cnpj, locadorData) =>{
-    let { nome, email, telefone, dt_nascimento, endereco } = locadorData;
-    try{
-        const sqlQuery = 'update locador set nome_locador = ? , email_locador = ?, telefone_locador = ?, dt_nascimento = ?,  endereco_locador = ? where cnpj_locador = ?';
-        const updatelocador = await connection.execute(sqlQuery,[nome, email, telefone, dt_nascimento, endereco, cnpj])
-        return updateLocadorPorCnpj;
+        const sqlQuery = 'update locador set nome_locador = ? , cpf_locador = ?, email_locador = ?, telefone_locador = ?, dt_nascimento = ?,  endereco_locador = ? where id_locador = ?';
+        const updatelocador = await connection.execute(sqlQuery,[locadorData.nome, locadorData.cpf, locadorData.email, locadorData.telefone, locadorData.dt_nascimento, locadorData.endereco, id])
+        return updatelocador;
 
     }catch (error){
         console.error('Erro ao inserir locador:', error);
@@ -95,8 +81,7 @@ const getAllLocador = async (res) => {
 
 module.exports = {
     insertLocador,
-    updateLocadorPorCPF,
-    updateLocadorPorCnpj,
+    updateLocador,
     deletarContaLocador,
     getLocadorPorCpf,
     getLocadorPorCnpj,

@@ -7,7 +7,7 @@ const locatarioController = require('./controllers/lacatarioControllers');
 const usuarioController = require('./controllers/usuarioControllers');
 const imovelController = require('./controllers/imovelController');
 const contratoController = require('./controllers/contratoController');
-const pagamentoController = require ('./controllers/pagamentoController');
+const pagamentoController = require('./controllers/pagamentoController');
 
 
 
@@ -20,7 +20,7 @@ router.delete('/tasks/:id', tasksController.deleteTasks);
 
 //* rotas locador
 router.post('/api/wag/locador', locadorController.insertLocador);
-router.put('/api/wag/locador/update/:cpf', locadorController.updateLocadorPorCPF);
+router.put('/api/wag/locador/update/:id', locadorController.updateLocador);
 router.delete('/api/wag/locador/delete/:cpf', locadorController.deletarContaLocador);
 router.get('/api/wag/locador/cpf/:cpf', locadorController.getLocadorPorCpf);
 router.get('/api/wag/locador/cnpj/:cnpj', locadorController.getLocadorPorCnpj);
