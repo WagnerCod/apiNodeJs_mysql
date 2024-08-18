@@ -34,7 +34,7 @@ const validateUser = async (req, res) => {
         if (userLogin) {
             res.status(200).json({ usuario: userLogin, message: 'ok' });
         } else {
-            res.status(401).json({ error: 'Verifique se os campos estão corretos' });
+            res.status(401).json({ error: 'Email ou senha incorretos.' });
         }
     } catch (error){
         console.error('Erro ao fazer login:', error);

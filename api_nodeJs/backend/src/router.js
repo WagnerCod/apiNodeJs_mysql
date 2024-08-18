@@ -22,16 +22,12 @@ router.delete('/tasks/:id', tasksController.deleteTasks);
 router.post('/api/wag/locador', locadorController.insertLocador);
 router.put('/api/wag/locador/update/:id', locadorController.updateLocador);
 router.delete('/api/wag/locador/delete/:cpf', locadorController.deletarContaLocador);
-router.get('/api/wag/locador/cpf/:cpf', locadorController.getLocadorPorCpf);
-router.get('/api/wag/locador/cnpj/:cnpj', locadorController.getLocadorPorCnpj);
 router.get('/api/wag/locador/getAll', locadorController.getAllLocador);
 
 //* rotas locatario
 router.post('/api/wag/locatario', locatarioController.insertLocatario);
-router.put('/api/wag/locatario/update/:cpf', locatarioController.updatelocatarioPorCPF);
-router.delete('/api/wag/locatario/delete/:cpf', locatarioController.deletarContalocatario);
-router.get('/api/wag/locatario/cpf/:cpf', locatarioController.getlocatarioPorCpf);
-router.get('/api/wag/locatario/cnpj/:cnpj', locatarioController.getlocatarioPorCnpj);
+router.put('/api/wag/locatario/update/:id', locatarioController.updatelocatario);
+router.delete('/api/wag/locatario/delete/:id', locatarioController.deletarContalocatario);
 router.get('/api/wag/locatarioAll', locatarioController.getLocatarioAll);
 
 //*rotas login/User

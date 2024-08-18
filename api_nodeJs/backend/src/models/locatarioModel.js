@@ -18,71 +18,35 @@ const insertLocatario = async (locatarioData) => {
     }
 }
 
-const updateLocatarioPorCPF = async (cpf, locatarioData) => {
+const updateLocatario = async (id, locatarioData) => {
     console.log(locatarioData);
     try {
-        const sqlQuery = 'update locatario set nome_locatario = ? , dt_nascimento = ?, endereco_locatario = ?, estado_civil = ?, telefone_locatario = ?, email_locatario = ?, dependentes = ? where cpf_locatario = ?';
-        const updatelocador = await connection.execute(sqlQuery, [locatarioData.nome, locatarioData.dt_nascimento, locatarioData.endereco, locatarioData.estado_civil, locatarioData.telefone, locatarioData.email, locatarioData.dependentes, cpf])
-        return updateLocatarioPorCPF;
+        const sqlQuery = 'UPDATE locatario SET nome_locatario = ?, cpf_locatario = ?, cnpj_locatario = ?, dt_nascimento = ?, endereco_locatario = ?, estado_civil = ?, telefone_locatario = ?, email_locatario = ?, dependentes = ? WHERE id_locatario = ?';
+        const updatelocatarioOk = await connection.execute(sqlQuery, [locatarioData.nome, locatarioData.cpf, locatarioData.cnpj, locatarioData.dt_nascimento, locatarioData.endereco, locatarioData.estado_civil, locatarioData.telefone, locatarioData.email, locatarioData.dependentes, id]);
+
+        return updatelocatarioOk;
 
     } catch (error) {
-        console.error('Erro ao inserir locador:', error);
-        throw error;
+        console.error('Erro ao atualizar locatario:', error);
+        throw error;A
     }
 }
 
-const updateLocatarioPorCnpj = async (cnpj, locatarioData) => {
-    console.log(locatarioData);
+const deletarContaLocatario = async (id) => {
     try {
-        const sqlQuery = 'update locatario set nome_locatario = ? , dt_nascimento = ?, endereco_locatario = ?, estado_civil = ?, telefone_locatario = ?, email_locatario = ?, dependentes = ? where cnpj_locatario = ?';
-        const updatelocador = await connection.execute(sqlQuery, [locatarioData.nome, locatarioData.dt_nascimento, locatarioData.endereco, locatarioData.estado_civil, locatarioData.telefone, locatarioData.email, locatarioData.dependentes, cnpj])
-        return updateLocatarioPorCnpj;
-
-    } catch (error) {
-        console.error('Erro ao inserir locador:', error);
-        throw error;
-    }
-}
-
-const deletarContaLocatario = async (res) => {
-    try {
-        let { cpf } = res
-        const sqlQuery = 'DELETE FROM locatario WHERE cpf_locatario = ?';
-        const deletarConta = await connection.execute(sqlQuery, [cpf]);
-        return deletarConta;
+        const sqlQuery = 'DELETE FROM locatario WHERE id_locatario = ?';
+        const deletarConta = await connection.execute(sqlQuery, [id]);
+        return deletarContaLocatario;
     } catch (error) {
         console.error('Erro ao deletar conta:', error);
         throw error;
     }
 }
 
-const getLocatarioPorCpf = async (res) => {
-    try {
-        const { cpf } = res;
-        const sqlQuery = 'SELECT * FROM locatario WHERE cpf_locatario =?';
-        const result = await connection.query(sqlQuery, [cpf]);
-        return result[0];
-    } catch (error) {
-        console.error('Erro ao consultar locador:', error);
-        throw error;
-    }
-}
-
-const getLocatarioPorCnpj = async (res) => {
-    try {
-        const { cnpj } = res;
-        const sqlQuery = 'SELECT * FROM locatario WHERE cnpj_locatario=?';
-        const result = await connection.query(sqlQuery, [cnpj]);
-        return (result[0]);
-    } catch (error) {
-        console.error('Erro ao consultar locador:', error);
-        throw error;
-    }
-}
 const getLocatarioAll = async () => {
     try {
        ;
-        const sqlQuery = 'SELECT * FROM locatario ORDER BY nome_locatario;';
+        const sqlQuery = 'SELECT * FROM locatario ORDER BY nome_locatario';
         const result = await connection.query(sqlQuery, []);
         return (result[0]);
     } catch (error) {
@@ -93,8 +57,7 @@ const getLocatarioAll = async () => {
 
 module.exports = {
     insertLocatario,
-    updateLocatarioPorCPF,
-    updateLocatarioPorCnpj,
+    updateLocatario,
     deletarContaLocatario,
     getLocatarioPorCpf,
     getLocatarioPorCnpj,

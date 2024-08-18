@@ -43,31 +43,6 @@ const deletarContaLocador = async (res) => {
     }
 }
 
-const getLocadorPorCpf =  async (res) =>{
-    console.log(res);
-    try{
-        const {cpf} = res;
-        const sqlQuery = 'SELECT * FROM locador WHERE cpf_locador =?';
-        const result  = await connection.query(sqlQuery, [cpf]);
-        return result[0];
-     } catch(error){
-        console.error('Erro ao consultar locador:', error);
-        throw error;
-     }
-}
-
-const getLocadorPorCnpj =  async (res) =>{
-    try{
-        const {cnpj} = res;
-        const sqlQuery = 'SELECT * FROM locador WHERE cnpj_locador=?';
-        const result  = await connection.query(sqlQuery, [cnpj]) ;
-        return(result[0]);
-     } catch(error){
-        console.error('Erro ao consultar locador:', error);
-        throw error;
-     }
-}
-
 const getAllLocador = async (res) => {
     try{
         const sqlQuery = 'SELECT * FROM locador ORDER BY nome_locador';
@@ -83,7 +58,5 @@ module.exports = {
     insertLocador,
     updateLocador,
     deletarContaLocador,
-    getLocadorPorCpf,
-    getLocadorPorCnpj,
     getAllLocador
 };

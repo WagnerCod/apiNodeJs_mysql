@@ -21,63 +21,48 @@ const insertLocatario = async (req, res) => {
     }
 }
 
-const updatelocatarioPorCPF = async (req, res) => {
+const updatelocatario = async (req, res) => {
     try {
-        let { cpf } = req.params;
-        const { nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes } = req.body;
-        const updatelocatario = await locatarioModel.updateLocatarioPorCPF(cpf, {nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes });
-        return res.status(200).json({ message: 'locatario atualizado com sucesso!' });
-    } catch (error) {
-        console.error('Erro ao inserir locatario:', error);
-        return res.status(500).json({ error: 'Erro ao inserir locatario' });
-    }
-}
-const updatelocatarioPorCnpj = async (req, res) => {
-    try {
-        let { cnpj } = req.params;
-        const { nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes } = req.body;
-        const updatelocatario = await locatarioModel.updateLocatarioPorCnpj(cnpj, { nome, dt_nascimento, endereco, estado_civil, telefone, email, dependentes });
-        return res.status(200).json({ message: 'locatario atualizado com sucesso!' });
-    } catch (error) {
-        console.error('Erro ao deletar contar:', error);
-        return res.status(500).json({ error: 'Erro ao inserir locatario' });
-    }
-}
+        let id = Number(req.params.id);
+        const { nome, cpf, cnpj, dt_nascimento, endereco, estado_civil, telefone, email, dependentes } = req.body;
 
-const deletarContalocatario = async (req, res) =>{
-    try{
-        let  {cpf} = req.params;
-        console.log("cpf ", cpf)
-        const deletarConta = await  locatarioModel.deletarContaLocatario({cpf});
-        if(deletarConta){
-            console.log('Registro deletado com sucesso: ' + cpf)
-            return res.status(200).json({message: 'Conta deletada com sucesso, não há chances de recuperar! '})
+        const locatarioData = {
+            nome: nome,
+            cpf: cpf,
+            cnpj: cnpj,
+            dt_nascimento: dt_nascimento,
+            endereco: endereco ,
+            estado_civil: estado_civil ,
+            telefone: telefone ,
+            email: email ,
+            dependentes: dependentes 
+        };
+
+        const updatelocatario = await locatarioModel.updateLocatario(id, locatarioData);
+        return res.status(200).json({ message: 'Locatario atualizado com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar locatario:', error);
+        return res.status(500).json({ error: 'Erro ao atualizar locatario' });
+    }
+}
+const deletarContalocatario = async (req, res) => {
+    try {
+        let id = Number(req.params.id);
+        
+        if (isNaN(id)) {
+            return res.status(400).json({ error: 'ID inválido' });
         }
-    }catch(error){
+
+        const deletarConta = await locatarioModel.deletarContaLocatario(id);
+        if (deletarConta) {
+            console.log('Registro deletado com sucesso: ' + id);
+            return res.status(200).json({ message: 'Conta deletada com sucesso, não há chances de recuperar!' });
+        } else {
+            return res.status(404).json({ message: 'Conta não encontrada' });
+        }
+    } catch (error) {
         console.error('Erro ao deletar conta:', error);
         return res.status(500).json({ error: 'Erro ao deletar conta' });
-    }
-}
-
-const getlocatarioPorCpf = async (req, res) =>{
-    try{
-        let  { cpf }= req.params;
-        const getlocatario = await locatarioModel.getLocatarioPorCpf({cpf});
-        return res.status(200).json(getlocatario);
-    }catch(error){
-        console.error('Erro ao buscar locatario:', error);
-        return res.status(500).json({ error: 'Erro ao buscar locatario' });
-    }
-}
-
-const getlocatarioPorCnpj = async (req, res) =>{
-    try{
-        let  { cnpj }= req.params;
-        const getlocatario = await locatarioModel.getLocatarioPorCnpj(cnpj);
-        return res.status(200).json(getlocatario);
-    }catch(error){
-        console.error('Erro ao buscar locatario:', error);
-        return res.status(500).json({ error: 'Erro ao buscar locatario' });
     }
 }
 
@@ -93,8 +78,7 @@ const getLocatarioAll = async (req, res) =>{
 
 module.exports = {
     insertLocatario,
-    updatelocatarioPorCPF,
-    updatelocatarioPorCnpj,
+    updatelocatario,
     deletarContalocatario,
     getlocatarioPorCpf,
     getlocatarioPorCnpj,
