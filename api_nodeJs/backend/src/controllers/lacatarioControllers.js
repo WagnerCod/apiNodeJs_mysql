@@ -80,7 +80,5 @@ module.exports = {
     insertLocatario,
     updatelocatario,
     deletarContalocatario,
-    getlocatarioPorCpf,
-    getlocatarioPorCnpj,
     getLocatarioAll
 };

@@ -47,12 +47,7 @@ router.delete('/api/wag/imovel/delete/:id', imovelController.deleteImovel);
 
 //* rotas contrato
 router.post('/api/wag/contrato/createdContrato', contratoController.createdContrato);
-
-router.get('/api/wag/contrato/get/cpf_locatario/:cpf', contratoController.getContratoCPFLocatario);
-router.get('/api/wag/contrato/get/cnpj_locatario/:cnpj', contratoController.getContratoCNPJLocatario);
-
-router.get('/api/wag/contrato/get/cpf_locador/:cpf', contratoController.getContratoCPFLocador);
-router.get('/api/wag/contrato/get/cnpj_locador/:cnpj', contratoController.getContratoCNPJLocador);
+router.get('/api/wag/contrato/get/contrato', contratoController.getContrato);
 router.delete('/api/wag/contrato/delete/:id', contratoController.deleteContrato);
 
 

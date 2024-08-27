@@ -28,7 +28,7 @@ const updateLocatario = async (id, locatarioData) => {
 
     } catch (error) {
         console.error('Erro ao atualizar locatario:', error);
-        throw error;A
+        throw error;
     }
 }
 
@@ -59,7 +59,5 @@ module.exports = {
     insertLocatario,
     updateLocatario,
     deletarContaLocatario,
-    getLocatarioPorCpf,
-    getLocatarioPorCnpj,
     getLocatarioAll
 };

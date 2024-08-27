@@ -3,28 +3,51 @@ const contratoModel = require('../models/contratoModel');
 
 const createdContrato = async (req, res) => {
     try {
-        const { id_locatario, id_usuario, id_imovel, dt_contrato_inicio, dt_termino_contrato, termo_condicoes, vl_mensal } = req.body;
-        const contratoData = { id_locatario, id_usuario, id_imovel, dt_contrato_inicio, dt_termino_contrato, termo_condicoes, vl_mensal };
+        const { id_locatario, id_imovel, dt_contrato_inicio, dt_termino_contrato, termo_condicoes, vl_mensal } = req.body;
+        const contratoData = { id_locatario, id_imovel, dt_contrato_inicio, dt_termino_contrato, termo_condicoes, vl_mensal };
         const contratoOk = await contratoModel.createdContrato(contratoData);
         if (contratoOk) {
-            return res.status(200).json({ contratoID: contratoOk, message: 'Contrato criado com sucesso!' });
+            return res.status(201).json({ contratoID: contratoOk.id_contrato, message: 'Contrato criado com sucesso!' });
         } else {
-            return res.status(400).json({ message: 'Erro ao criar o contrato' });
+            return res.status(400).json({
+                errorCode: 'CONTRATO_CREATION_FAILED',
+                message: 'Erro ao criar o contrato',
+                details: 'O contrato não pôde ser criado devido a um problema desconhecido.'
+            });
         }
     } catch (error) {
         console.error('Erro ao criar Contrato:', error);
-        return res.status(500).json({ error: error.message });
-    }
-}
 
-const getContratoCPFLocatario = async (req, res) => {
-    try {
-        const { cpf } = req.params;
-        console.log(cpf);
-        const cpf_locatario = {
-            cpf: cpf
+        let statusCode = 500;
+        let errorCode = 'INTERNAL_SERVER_ERROR';
+        let message = 'Ocorreu um erro interno ao processar a solicitação.';
+
+        if (error.code === 'ER_NO_REFERENCED_ROW_2') {
+            statusCode = 400;
+            errorCode = 'FOREIGN_KEY_CONSTRAINT_FAILED';
+            message = 'Não foi possível criar o contrato devido a uma violação de chave estrangeira. Verifique se o id_locatario e id_imovel existem.';
         }
-        const contratoOK = await contratoModel.getContratoCPFLocatario(cpf_locatario);
+
+        return res.status(statusCode).json({
+            errorCode: errorCode,
+            message: message,
+            details: error.message
+        });
+    }
+};
+
+
+
+const getContrato = async (req, res) => {
+    try {
+        const { cpf } = req.params || {};  
+        const { id_imovel } = req.query || {}; 
+
+        console.log('CPF:', cpf);
+        console.log('ID Imóvel:', id_imovel);
+        
+      
+        const contratoOK = await contratoModel.getContrato({ cpf_locatario: cpf, id_imovel });
 
         if (contratoOK.length > 0) {
             return res.status(200).json(contratoOK);
@@ -36,63 +59,9 @@ const getContratoCPFLocatario = async (req, res) => {
         return res.status(500).json({ error: 'Erro ao consultar contrato' });
     }
 };
-const getContratoCNPJLocatario = async (req, res) => {
-    try {
-        const { cnpj } = req.params;
-        console.log(cnpj);
-        const cnpj_locatario = {
-            cnpj: cnpj
-        }
-        const contratoOK = await contratoModel.getContratoCNPJLocatario(cnpj_locatario);
 
-        if (contratoOK.length > 0) {
-            return res.status(200).json(contratoOK);
-        } else {
-            return res.status(404).json({ message: 'Contrato não encontrado' });
-        }
-    } catch (error) {
-        console.error('Erro ao consultar contrato:', error);
-        return res.status(500).json({ error: 'Erro ao consultar contrato' });
-    }
-};
 
-const getContratoCNPJLocador = async (req, res) => {
-    try {
-        const { cnpj } = req.params;
-        console.log(cnpj);
-        const cnpj_locador = {
-            cnpj: cnpj
-        }
-        const contratoOK = await contratoModel.getContratoCNPJLocador(cnpj_locador);
 
-        if (contratoOK.length > 0) {
-            return res.status(200).json(contratoOK);
-        } else {
-            return res.status(404).json({ message: 'Contrato não encontrado' });
-        }
-    } catch (error) {
-        console.error('Erro ao consultar contrato:', error);
-        return res.status(500).json({ error: 'Erro ao consultar contrato' });
-    }
-};
-const getContratoCPFLocador = async (req, res) => {
-    try {
-        const { cpf } = req.params;
-        const cpf_locador = {
-            cpf: cpf
-        }
-        const contratoOK = await contratoModel.getContratoCPFLocador(cpf_locador);
-
-        if (contratoOK.length > 0) {
-            return res.status(200).json(contratoOK);
-        } else {
-            return res.status(404).json({ message: 'Contrato não encontrado' });
-        }
-    } catch (error) {
-        console.error('Erro ao consultar contrato:', error);
-        return res.status(500).json({ error: 'Erro ao consultar contrato' });
-    }
-};
 
 
 const deleteContrato = async (req, res) => {
@@ -112,9 +81,6 @@ const deleteContrato = async (req, res) => {
 
 module.exports = {
     createdContrato,
-    getContratoCPFLocatario,
-    getContratoCNPJLocatario,
-    getContratoCNPJLocador,
-    getContratoCPFLocador,
+    getContrato,
     deleteContrato
 }
